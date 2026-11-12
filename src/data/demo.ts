@@ -1,4 +1,4 @@
-import {Ev,Course,Task,Prefs,hm} from './engine'
+import {Ev,Course,Task,Prefs,hm} from '../engine'
 let n=0;const E=(title:string,type:Ev['type'],source:string,dd:number|string,s:string,e:string):Ev=>({id:'d'+n++,title,type,source,dow:typeof dd==='number'?dd:undefined,date:typeof dd==='string'?dd:undefined,start:hm(s),end:hm(e),recurring:typeof dd==='number',fixed:true,verified:true})
 export const TODAY='2026-11-13'
 const tt:Ev[]=[]
@@ -25,4 +25,4 @@ export const demoTasks:Task[]=[
  T('t3','DSA SIE','dsa','sie','2026-12-04',0),T('t4','OS SIE','os','sie','2026-12-08',0),T('t5','Mathematics SIE','math','sie','2026-12-10',0),
  T('t6','DBMS SIE','dbms','sie','2026-12-12',0),T('t7','Networks SIE','net','sie','2026-12-14',0),
  T('t8','DBMS Assignment 3','dbms','assignment','2026-11-18',3),T('t9','Maths Quiz Prep','math','quiz','2026-11-20',2),T('t10','OS Lab Record','os','project','2026-11-30',3)]
-export const defaultPrefs:Prefs={startDate:TODAY,endDate:'2026-12-15',start:hm('17:00'),end:hm('22:00'),dailyTarget:3,session:60,breakMin:10,studyDays:[0,1,2,3,4,5,6],unavailable:[{start:hm('19:30'),end:hm('20:15')}]}
+export const defaultPrefs:Prefs={startDate:TODAY,endDate:'2026-12-15',start:hm('17:00'),end:hm('22:00'),dailyTarget:3,session:60,breakMin:10,studyDays:[0,1,2,3,4,5,6],unavailable:[{start:hm('19:30'),end:hm('20:15'),label:'Dinner'}]}

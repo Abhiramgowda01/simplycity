@@ -1,0 +1,4 @@
+# Requirements (as implemented)
+Functional: multi-document import (CSV, ICS, PDF text layer, scanned PDF/JPG/PNG via OCR); review/edit/delete/manual entry; duplicate + conflict detection; planning date range; daily window/target; courses with difficulty/understanding/importance/hours; tasks with deadline flags (overdue, <24h, <=3d, <=7d); priority-weighted allocation; shortage report; validation; rescheduling with preview; calendar day/week/month with drag-to-move sessions and a drag-in personal event; progress from completed sessions only; demo mode; dark mode; share file.
+Non-functional: deterministic engine with no network/AI dependency; engine independent of React; data persists across refresh; responsive layout.
+Not implemented: XLSX import, accounts/Supabase, topic-level tracking, mock-test sessions, overnight events across midnight (clipped), notifications.

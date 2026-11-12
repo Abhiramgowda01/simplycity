@@ -1,7 +1,7 @@
 import {describe,it,expect} from 'vitest'
-import {freeSlots,generate,validate,reschedule,dedupe,detectConflicts,priority,busyFor,hm,datesBetween,Ev,Prefs,Course,Task,Session} from '../src/engine'
-import {parseCSV} from '../src/importers'
-import {demoEvents,demoCourses,demoTasks,defaultPrefs,TODAY} from '../src/demo'
+import {freeSlots,generate,validate,reschedule,dedupe,detectConflicts,priority,busyFor,hm,datesBetween,Ev,Prefs,Course,Task,Session} from '../../src/engine'
+import {parseCSV} from '../../src/services/documentParser'
+import {demoEvents,demoCourses,demoTasks,defaultPrefs,TODAY} from '../../src/data/demo'
 const P:Prefs={...defaultPrefs,unavailable:[]}
 const ev=(o:Partial<Ev>):Ev=>({id:Math.random()+'',title:'x',type:'class',source:'s',start:hm('09:00'),end:hm('10:00'),recurring:false,fixed:true,verified:true,...o})
 const inp={events:demoEvents,courses:demoCourses,tasks:demoTasks,prefs:defaultPrefs,today:TODAY}

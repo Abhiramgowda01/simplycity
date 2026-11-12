@@ -1,0 +1,5 @@
+export * from './academicEvent'
+export * from './course'
+export * from './deadline'
+export * from './schedule'
+export * from './student'

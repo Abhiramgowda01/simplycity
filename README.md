@@ -1,28 +1,18 @@
 # SmartStudy – Intelligent Academic Scheduling (prototype)
-
-Merges timetable, event calendar, CIE and SIE schedules, then generates a clash-free, priority-weighted study plan with dynamic rescheduling. React + TypeScript + Vite; data persists in localStorage. No external AI/API is used - scheduling is deterministic.
+Merges timetable, event calendar, CIE and SIE schedules with courses/deadlines and generates a clash-free, priority-weighted study plan inside a chosen date range. React + TypeScript + Vite, localStorage persistence, deterministic engine (no AI API).
 
 ## Run
 ```
 npm install
-npm run dev      # open the printed URL, click "Load demo data"
-npm test         # 20 engine tests
+npm run dev        # open the URL, click "Load demo data"
+npm test           # engine + parser tests
 npm run build
 ```
+## Structure
+`src/engine` (scheduling, pure TS) · `src/services` (CSV/ICS/PDF/OCR, storage, share) · `src/pages` (13 pages) · `src/components` · `src/hooks/useStore.tsx` · `src/types` · `tests/` · `docs/` (10 documents).
 
-## What is implemented
-- Import of CSV and ICS files (multiple at once, any subset of the 5 document categories), manual entry, edit/delete, "blocks study" and "verified" toggles, duplicate detection, conflict flagging (never silently overwritten).
-- Recurring weekly expansion, one-off events, holidays (all-day), CIE/SIE exams as fixed blocks.
-- Preferences: planning range, daily window, daily target, session/break length, study days, unavailable periods.
-- Courses (difficulty/understanding/importance/hours), tasks (overdue / <24h / <=3d / <=7d flags), exam tasks from imported exam events.
-- Engine (`src/engine.ts`): free-slot calculation, priority score (30/25/20/15/10 weights, normalised 0-100), greedy allocation with fairness penalty, exam prep strictly before exam date plus "revision" sessions in the last 2 days, shortage report, validator, rescheduler with preview (done/missed/past sessions preserved).
-- Dashboard, weekly calendar, session Done/Missed, progress (only Done counts), dark mode, demo mode stored separately.
+## Features
+Multi-document import incl. PDF.js + Tesseract.js OCR · review/edit/confirm · duplicate + conflict detection · study setup (dates, window, targets, unavailable time) · courses + tasks · priority scoring (30/25/20/15/10) · shortage report · validator · rescheduling with preview · screenshot-style planner (sidebar, day/week/month grid, task panel, drag to move, custom events) · dashboard · progress · demo mode · dark mode · schedule sharing.
 
-## CSV format
-`title,day_or_date,start,end[,type]` e.g. `DSA Lecture,Mon,09:00,10:00` or `DSA CIE,2026-11-23,09:00,12:00,cie`. Incomplete rows are rejected, never guessed.
-
-## Limitations (honest list)
-- PDF/image OCR (Tesseract.js / PDF.js) is **not implemented**; those files are rejected with a message. Convert to CSV/ICS or enter manually.
-- Calendar is a week view (no separate day/month views); sessions are marked/reset but not drag-rescheduled.
-- Overnight events are clipped at midnight. No backend/Supabase. Mock tests are not scheduled separately (last-2-day revision only).
-- shadcn/ui, Recharts, date-fns, Tailwind are not used (plain CSS, own date math) to keep the prototype small.
+## Limitations
+OCR accuracy depends on scan quality and needs internet on first use (language data). Free-text parsing expects a weekday/date and a time range on each line. No XLSX, backend, accounts, notifications; overnight events are clipped at midnight; no mock-test sessions (last-2-day revision only); UI is not covered by automated tests. See docs/TESTING.md.
