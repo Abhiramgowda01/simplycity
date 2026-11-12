@@ -22,7 +22,7 @@ export interface CourseMapping {
 export const MITE_COURSE_MAPPINGS: Record<string, CourseMapping> = {
   '23HMCC301': {
     code: '23HMCC301',
-    name: 'Management & Finance',
+    name: 'Entrepreneurship, Management & Finance',
     faculty: 'Ms. Akshitha',
     difficulty: 1,
     understanding: 2,
@@ -32,26 +32,16 @@ export const MITE_COURSE_MAPPINGS: Record<string, CourseMapping> = {
   },
   '23CSPC302': {
     code: '23CSPC302',
-    name: 'Formal Language & Automata Theory',
-    faculty: 'Ms. Sunitha N V',
-    difficulty: 3,
-    understanding: 1,
-    importance: 5,
-    estimatedHours: 8,
-    color: '#f5a8e0' // soft pink/purple
-  },
-  '23CSPC303': {
-    code: '23CSPC303',
     name: 'Database Management Systems',
     faculty: 'Dr. Sumalatha',
     difficulty: 2,
     understanding: 2,
-    importance: 4,
-    estimatedHours: 6,
+    importance: 5,
+    estimatedHours: 7,
     color: '#99e0d5' // soft teal
   },
-  '23CSPC305': {
-    code: '23CSPC305',
+  '23CSPC303': {
+    code: '23CSPC303',
     name: 'Computer Networks',
     faculty: 'Ms. Anitha',
     difficulty: 3,
@@ -60,15 +50,45 @@ export const MITE_COURSE_MAPPINGS: Record<string, CourseMapping> = {
     estimatedHours: 7,
     color: '#fdb99a' // soft orange
   },
+  '23CSPC304': {
+    code: '23CSPC304',
+    name: 'Formal Language and Automata Theory',
+    faculty: 'Ms. Sunitha N V',
+    difficulty: 3,
+    understanding: 1,
+    importance: 5,
+    estimatedHours: 8,
+    color: '#f5a8e0' // soft pink/purple
+  },
   '23CSPE311': {
     code: '23CSPE311',
-    name: 'Full-Stack Development',
+    name: 'Full Stack Development',
     faculty: 'Mr. Shivaprasad',
     difficulty: 2,
     understanding: 3,
     importance: 4,
     estimatedHours: 6,
     color: '#c4b5fd' // soft violet
+  },
+  '23CSPE312': {
+    code: '23CSPE312',
+    name: 'Internet of Things',
+    faculty: 'IoT Faculty Team',
+    difficulty: 2,
+    understanding: 2,
+    importance: 4,
+    estimatedHours: 5,
+    color: '#fed7aa'
+  },
+  '23XXOE31X': {
+    code: '23XXOE31X',
+    name: 'Open Elective (Robotics / UAV / Drones)',
+    faculty: 'Deepak Poojary / Team',
+    difficulty: 2,
+    understanding: 2,
+    importance: 3,
+    estimatedHours: 4,
+    color: '#fde68a'
   },
   '23CSPL306': {
     code: '23CSPL306',
@@ -99,16 +119,6 @@ export const MITE_COURSE_MAPPINGS: Record<string, CourseMapping> = {
     importance: 2,
     estimatedHours: 2,
     color: '#e5e7eb' // soft grey
-  },
-  'OPEN_ELECTIVE': {
-    code: 'OE-301',
-    name: 'Open Elective (Robotics / UAV / Drones)',
-    faculty: 'Deepak Poojary / Team',
-    difficulty: 2,
-    understanding: 2,
-    importance: 3,
-    estimatedHours: 4,
-    color: '#fed7aa'
   },
   'PLACEMENT': {
     code: 'TRAIN-01',
@@ -157,7 +167,6 @@ export const MITE_COURSES: Course[] = Object.values(MITE_COURSE_MAPPINGS).map(m 
 // Recurring weekly timetable events extracted from the MITE CSE-1 Timetable Matrix
 export const MITE_TIMETABLE_EVENTS: Ev[] = [
   // MONDAY (dow: 1)
-  // Merged Morning Lab (Periods 1-3: 09:00 - 12:05)
   {
     id: 'mite-mon-lab',
     title: 'DBMS Lab / CN Lab (23CSPL306 / 23CSPL307)',
@@ -172,11 +181,10 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
     verified: true,
     confidence: 96
   },
-  // Monday Afternoon Lectures
   {
     id: 'mite-mon-flat',
-    title: 'Formal Language & Automata Theory (23CSPC302) [201]',
-    code: '23CSPC302',
+    title: 'Formal Language & Automata Theory (23CSPC304) [201]',
+    code: '23CSPC304',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
     dow: 1,
@@ -189,7 +197,7 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-mon-fsd-1',
-    title: 'Full-Stack Development (23CSPE311) [309]',
+    title: 'Full Stack Development (23CSPE311) [309]',
     code: '23CSPE311',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
@@ -203,7 +211,7 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-mon-fsd-2',
-    title: 'Full-Stack Development (23CSPE311) [309]',
+    title: 'Full Stack Development (23CSPE311) [309]',
     code: '23CSPE311',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
@@ -217,7 +225,7 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-mon-mf',
-    title: 'Management & Finance (23HMCC301) [203]',
+    title: 'Entrepreneurship, Management & Finance (23HMCC301) [203]',
     code: '23HMCC301',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
@@ -233,8 +241,8 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   // TUESDAY (dow: 2)
   {
     id: 'mite-tue-cn',
-    title: 'Computer Networks (23CSPC305) [201]',
-    code: '23CSPC305',
+    title: 'Computer Networks (23CSPC303) [201]',
+    code: '23CSPC303',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
     dow: 2,
@@ -247,8 +255,8 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-tue-oe',
-    title: 'Open Elective (Robotics / UAV / Drones) [Audi-3]',
-    code: 'OE-301',
+    title: 'Open Elective (23XXOE31X) [Audi-3]',
+    code: '23XXOE31X',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
     dow: 2,
@@ -261,8 +269,8 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-tue-dbms',
-    title: 'Database Management Systems (23CSPC303) [203]',
-    code: '23CSPC303',
+    title: 'Database Management Systems (23CSPC302) [203]',
+    code: '23CSPC302',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
     dow: 2,
@@ -275,8 +283,8 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-tue-flat',
-    title: 'Formal Language & Automata Theory (23CSPC302) [203]',
-    code: '23CSPC302',
+    title: 'Formal Language & Automata Theory (23CSPC304) [203]',
+    code: '23CSPC304',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
     dow: 2,
@@ -287,7 +295,6 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
     verified: true,
     confidence: 97
   },
-  // Merged Afternoon Placement Training (Periods 5-7: 13:45 - 16:30)
   {
     id: 'mite-tue-placement',
     title: 'Placement Training [Room 203]',
@@ -306,8 +313,8 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   // WEDNESDAY (dow: 3)
   {
     id: 'mite-wed-dbms',
-    title: 'Database Management Systems (23CSPC303) [205]',
-    code: '23CSPC303',
+    title: 'Database Management Systems (23CSPC302) [205]',
+    code: '23CSPC302',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
     dow: 3,
@@ -320,7 +327,7 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-wed-mf',
-    title: 'Management & Finance (23HMCC301) [205]',
+    title: 'Entrepreneurship, Management & Finance (23HMCC301) [205]',
     code: '23HMCC301',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
@@ -334,7 +341,7 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-wed-fsd',
-    title: 'Full-Stack Development (23CSPE311) [312/205]',
+    title: 'Full Stack Development (23CSPE311) [312/205]',
     code: '23CSPE311',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
@@ -348,8 +355,8 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-wed-cnt',
-    title: 'Computer Networks Tutorial 23CSPC305(T) [205]',
-    code: '23CSPC305',
+    title: 'Computer Networks Tutorial 23CSPC303(T) [205]',
+    code: '23CSPC303',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
     dow: 3,
@@ -378,8 +385,8 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   // THURSDAY (dow: 4)
   {
     id: 'mite-thu-oe',
-    title: 'Open Elective (Robotics / UAV / Drones) [Audi-3]',
-    code: 'OE-301',
+    title: 'Open Elective (23XXOE31X) [Audi-3]',
+    code: '23XXOE31X',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
     dow: 4,
@@ -392,8 +399,8 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-thu-flat',
-    title: 'Formal Language & Automata Theory (23CSPC302) [201]',
-    code: '23CSPC302',
+    title: 'Formal Language & Automata Theory (23CSPC304) [201]',
+    code: '23CSPC304',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
     dow: 4,
@@ -406,8 +413,8 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-thu-cn',
-    title: 'Computer Networks (23CSPC305) [201]',
-    code: '23CSPC305',
+    title: 'Computer Networks (23CSPC303) [201]',
+    code: '23CSPC303',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
     dow: 4,
@@ -420,7 +427,7 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-thu-mf',
-    title: 'Management & Finance (23HMCC301) [201]',
+    title: 'Entrepreneurship, Management & Finance (23HMCC301) [201]',
     code: '23HMCC301',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
@@ -432,7 +439,6 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
     verified: true,
     confidence: 98
   },
-  // Merged Afternoon Lab (Periods 5-7: 13:45 - 16:30)
   {
     id: 'mite-thu-lab',
     title: 'DBMS Lab / CN Lab (23CSPL306 / 23CSPL307)',
@@ -451,8 +457,8 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   // FRIDAY (dow: 5)
   {
     id: 'mite-fri-flat',
-    title: 'Formal Language & Automata Theory (23CSPC302) [203]',
-    code: '23CSPC302',
+    title: 'Formal Language & Automata Theory (23CSPC304) [203]',
+    code: '23CSPC304',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
     dow: 5,
@@ -465,8 +471,8 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-fri-oe',
-    title: 'Open Elective (Robotics / UAV / Drones) [Audi-3]',
-    code: 'OE-301',
+    title: 'Open Elective (23XXOE31X) [Audi-3]',
+    code: '23XXOE31X',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
     dow: 5,
@@ -479,7 +485,7 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-fri-mf',
-    title: 'Management & Finance (23HMCC301) [203]',
+    title: 'Entrepreneurship, Management & Finance (23HMCC301) [203]',
     code: '23HMCC301',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
@@ -493,7 +499,7 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-fri-fsd',
-    title: 'Full-Stack Development (23CSPE311) [312/203]',
+    title: 'Full Stack Development (23CSPE311) [312/203]',
     code: '23CSPE311',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
@@ -523,8 +529,8 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   // SATURDAY (dow: 6)
   {
     id: 'mite-sat-dbms',
-    title: 'Database Management Systems (23CSPC303) [205]',
-    code: '23CSPC303',
+    title: 'Database Management Systems (23CSPC302) [205]',
+    code: '23CSPC302',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
     dow: 6,
@@ -537,7 +543,7 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   },
   {
     id: 'mite-sat-mf',
-    title: 'Management & Finance (23HMCC301) [205]',
+    title: 'Entrepreneurship, Management & Finance (23HMCC301) [205]',
     code: '23HMCC301',
     type: 'class',
     source: 'MITE Timetable (CSE-1)',
@@ -593,77 +599,105 @@ export const MITE_TIMETABLE_EVENTS: Ev[] = [
   }
 ]
 
-// MITE Continuous Internal Evaluation (CIE-1) examinations schedule
+// =========================================================================
+// MITE CONTINUOUS INTERNAL EVALUATION (CIE) TEST I TIME TABLE (FROM PDF)
+// Academic Year: 2026-27 | V Semester | Department of Computer Science & Engineering
+// =========================================================================
 export const MITE_CIE_EVENTS: Ev[] = [
+  // -----------------------------------------------------------------------
+  // DAY 1: 31-10-2026 Saturday
+  // -----------------------------------------------------------------------
   {
-    id: 'mite-cie-mf',
-    title: 'CIE-1: Management & Finance (23HMCC301)',
-    code: '23HMCC301',
+    id: 'mite-cie-dbms',
+    title: 'Database Management Systems (23CSPC302)',
+    code: '23CSPC302',
     type: 'cie',
-    source: 'MITE CIE Circular 2026-27',
-    date: '2026-11-23',
-    start: hm('09:30'),
-    end: hm('11:00'),
+    source: 'MITE CIE Test I Circular (V Sem 2026-27)',
+    date: '2026-10-31',
+    start: hm('09:15'), // 555 min
+    end: hm('10:45'),   // 645 min
     recurring: false,
     fixed: true,
     verified: true,
-    confidence: 99
+    confidence: 100
+  },
+  {
+    id: 'mite-cie-emf',
+    title: 'Entrepreneurship, Management & Finance (23HMCC301)',
+    code: '23HMCC301',
+    type: 'cie',
+    source: 'MITE CIE Test I Circular (V Sem 2026-27)',
+    date: '2026-10-31',
+    start: hm('13:15'), // 795 min (1.15 PM)
+    end: hm('14:45'),   // 885 min (2.45 PM)
+    recurring: false,
+    fixed: true,
+    verified: true,
+    confidence: 100
+  },
+
+  // -----------------------------------------------------------------------
+  // DAY 2: 02-11-2026 Monday
+  // -----------------------------------------------------------------------
+  {
+    id: 'mite-cie-cn',
+    title: 'Computer Networks (23CSPC303)',
+    code: '23CSPC303',
+    type: 'cie',
+    source: 'MITE CIE Test I Circular (V Sem 2026-27)',
+    date: '2026-11-02',
+    start: hm('09:15'), // 555 min
+    end: hm('10:45'),   // 645 min
+    recurring: false,
+    fixed: true,
+    verified: true,
+    confidence: 100
   },
   {
     id: 'mite-cie-flat',
-    title: 'CIE-1: Formal Language & Automata Theory (23CSPC302)',
-    code: '23CSPC302',
+    title: 'Formal Language and Automata Theory (23CSPC304)',
+    code: '23CSPC304',
     type: 'cie',
-    source: 'MITE CIE Circular 2026-27',
-    date: '2026-11-24',
-    start: hm('09:30'),
-    end: hm('11:00'),
+    source: 'MITE CIE Test I Circular (V Sem 2026-27)',
+    date: '2026-11-02',
+    start: hm('13:15'), // 795 min
+    end: hm('14:45'),   // 885 min
     recurring: false,
     fixed: true,
     verified: true,
-    confidence: 99
+    confidence: 100
   },
+
+  // -----------------------------------------------------------------------
+  // DAY 3: 03-11-2026 Tuesday
+  // -----------------------------------------------------------------------
   {
-    id: 'mite-cie-dbms',
-    title: 'CIE-1: Database Management Systems (23CSPC303)',
-    code: '23CSPC303',
+    id: 'mite-cie-oe',
+    title: 'Open Elective (23XXOE31X)',
+    code: '23XXOE31X',
     type: 'cie',
-    source: 'MITE CIE Circular 2026-27',
-    date: '2026-11-25',
-    start: hm('09:30'),
-    end: hm('11:00'),
+    source: 'MITE CIE Test I Circular (V Sem 2026-27)',
+    date: '2026-11-03',
+    start: hm('09:15'), // 555 min
+    end: hm('10:45'),   // 645 min
     recurring: false,
     fixed: true,
     verified: true,
-    confidence: 99
-  },
-  {
-    id: 'mite-cie-cn',
-    title: 'CIE-1: Computer Networks (23CSPC305)',
-    code: '23CSPC305',
-    type: 'cie',
-    source: 'MITE CIE Circular 2026-27',
-    date: '2026-11-26',
-    start: hm('09:30'),
-    end: hm('11:00'),
-    recurring: false,
-    fixed: true,
-    verified: true,
-    confidence: 99
+    confidence: 100
   },
   {
     id: 'mite-cie-fsd',
-    title: 'CIE-1: Full-Stack Development (23CSPE311)',
+    title: 'Full Stack Development (23CSPE311) / Internet of Things (23CSPE312)',
     code: '23CSPE311',
     type: 'cie',
-    source: 'MITE CIE Circular 2026-27',
-    date: '2026-11-27',
-    start: hm('09:30'),
-    end: hm('11:00'),
+    source: 'MITE CIE Test I Circular (V Sem 2026-27)',
+    date: '2026-11-03',
+    start: hm('13:15'), // 795 min
+    end: hm('14:45'),   // 885 min
     recurring: false,
     fixed: true,
     verified: true,
-    confidence: 99
+    confidence: 100
   }
 ]
 
@@ -697,14 +731,14 @@ export const MITE_ACADEMIC_EVENTS: Ev[] = [
   }
 ]
 
-// Sample academic tasks & deadlines for MITE CSE Sem 5
+// Linked tasks & deadlines for MITE CSE Sem 5 based on the official CIE Test 1 schedule
 export const MITE_TASKS: Task[] = [
   {
     id: 'mite-task-dbms-hw',
     title: 'DBMS SQL Complex Queries & Triggers Assignment',
-    courseId: '23cspc303',
+    courseId: '23cspc302',
     type: 'assignment',
-    deadline: '2026-11-18',
+    deadline: '2026-10-29',
     estimatedHours: 3,
     status: 'pending',
     description: 'Solve ER modeling questions and write nested SQL aggregation queries.'
@@ -712,9 +746,9 @@ export const MITE_TASKS: Task[] = [
   {
     id: 'mite-task-flat-quiz',
     title: 'FLAT DFA/NFA Minimization Quiz Prep',
-    courseId: '23cspc302',
+    courseId: '23cspc304',
     type: 'quiz',
-    deadline: '2026-11-20',
+    deadline: '2026-10-30',
     estimatedHours: 2,
     status: 'pending',
     description: 'Practice Myhill-Nerode theorem and conversion from regular expression to DFA.'
@@ -724,7 +758,7 @@ export const MITE_TASKS: Task[] = [
     title: 'Full-Stack Development Project Milestone 1',
     courseId: '23cspe311',
     type: 'project',
-    deadline: '2026-11-22',
+    deadline: '2026-11-01',
     estimatedHours: 5,
     status: 'pending',
     description: 'React client setup with REST API endpoints for authentication.'
@@ -732,57 +766,66 @@ export const MITE_TASKS: Task[] = [
   {
     id: 'mite-task-cn-lab',
     title: 'Computer Networks Packet Tracer Lab Record',
-    courseId: '23cspc305',
+    courseId: '23cspc303',
     type: 'assignment',
-    deadline: '2026-11-21',
+    deadline: '2026-10-31',
     estimatedHours: 2.5,
     status: 'pending',
     description: 'Submit routing simulation topologies and Wireshark trace analysis.'
   },
-  // Linked CIE exam preparation tasks
-  {
-    id: 'mite-task-exam-mf',
-    title: 'CIE-1: Management & Finance',
-    courseId: '23hmcc301',
-    type: 'cie',
-    deadline: '2026-11-23',
-    estimatedHours: 4,
-    status: 'pending'
-  },
-  {
-    id: 'mite-task-exam-flat',
-    title: 'CIE-1: Formal Language & Automata Theory',
-    courseId: '23cspc302',
-    type: 'cie',
-    deadline: '2026-11-24',
-    estimatedHours: 6,
-    status: 'pending'
-  },
+  // Linked CIE-1 examination preparation tasks matching the official timetable:
   {
     id: 'mite-task-exam-dbms',
-    title: 'CIE-1: Database Management Systems',
-    courseId: '23cspc303',
+    title: 'CIE-1: Database Management Systems (23CSPC302)',
+    courseId: '23cspc302',
     type: 'cie',
-    deadline: '2026-11-25',
+    deadline: '2026-10-31',
     estimatedHours: 5,
+    status: 'pending'
+  },
+  {
+    id: 'mite-task-exam-emf',
+    title: 'CIE-1: Entrepreneurship, Management & Finance (23HMCC301)',
+    courseId: '23hmcc301',
+    type: 'cie',
+    deadline: '2026-10-31',
+    estimatedHours: 4,
     status: 'pending'
   },
   {
     id: 'mite-task-exam-cn',
-    title: 'CIE-1: Computer Networks',
-    courseId: '23cspc305',
+    title: 'CIE-1: Computer Networks (23CSPC303)',
+    courseId: '23cspc303',
     type: 'cie',
-    deadline: '2026-11-26',
+    deadline: '2026-11-02',
     estimatedHours: 5,
     status: 'pending'
   },
   {
+    id: 'mite-task-exam-flat',
+    title: 'CIE-1: Formal Language and Automata Theory (23CSPC304)',
+    courseId: '23cspc304',
+    type: 'cie',
+    deadline: '2026-11-02',
+    estimatedHours: 6,
+    status: 'pending'
+  },
+  {
+    id: 'mite-task-exam-oe',
+    title: 'CIE-1: Open Elective (23XXOE31X)',
+    courseId: '23xxoe31x',
+    type: 'cie',
+    deadline: '2026-11-03',
+    estimatedHours: 3,
+    status: 'pending'
+  },
+  {
     id: 'mite-task-exam-fsd',
-    title: 'CIE-1: Full-Stack Development',
+    title: 'CIE-1: Full Stack Development (23CSPE311) / IoT',
     courseId: '23cspe311',
     type: 'cie',
-    deadline: '2026-11-27',
-    estimatedHours: 4,
+    deadline: '2026-11-03',
+    estimatedHours: 5,
     status: 'pending'
   }
 ]

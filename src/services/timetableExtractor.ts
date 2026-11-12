@@ -181,3 +181,4 @@ export function extractTimetableMatrix(text: string, sourceFileName: string): Ex
       : `Standard line parser used.`
   }
 }
+

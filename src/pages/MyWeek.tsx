@@ -2,6 +2,7 @@ import React from 'react'
 import {useStore} from '../hooks/useStore'
 import {busyFor, freeSlots, dayDiff, isExam, fmt, addDays, dowOf} from '../engine'
 import {dayName} from '../services/documentParser'
+import {MITE_CIE_EVENTS} from '../data/miteTimetable'
 import {
   Calendar,
   Clock,
@@ -21,7 +22,7 @@ export default function MyWeek() {
   // Calculate current greeting
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
-  const studentName = st.profile.name ? st.profile.name.split(' ')[0] : 'Student'
+  const studentName = st.profile.name ? st.profile.name.split(' ')[0] : 'Abhiram'
 
   // Weekly date range calculation (Monday to Sunday)
   const currentDow = dowOf(today)
@@ -42,10 +43,15 @@ export default function MyWeek() {
     .filter(t => t.status !== 'done' && !isExam(t.type) && t.deadline >= today)
     .sort((a, b) => a.deadline.localeCompare(b.deadline))
 
-  // Upcoming examinations (CIE & SIE)
-  const upcomingExams = st.events
-    .filter(e => isExam(e.type) && e.date && e.date >= today)
-    .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+  // Official Continuous Internal Evaluation (CIE) & SIE Examinations
+  const allExamEvents = (st.events.filter(e => isExam(e.type) && e.date).length > 0
+    ? st.events.filter(e => isExam(e.type) && e.date)
+    : MITE_CIE_EVENTS
+  ).sort((a, b) => {
+    const cmp = (a.date || '').localeCompare(b.date || '')
+    if (cmp !== 0) return cmp
+    return a.start - b.start
+  })
 
   // Weekly study progress
   const weekSessions = st.sessions.filter(s => s.date >= weekStart && s.date <= weekEnd)
@@ -68,19 +74,16 @@ export default function MyWeek() {
             <span>👋</span> {greeting}, {studentName}
           </h1>
           <div style={{ display: 'flex', gap: 8 }}>
-            {!st.events.length && (
-              <button className="btn btn-accent btn-sm" onClick={loadMiteData}>
-                <Sparkles size={14} />
-                Load MITE Timetable Test Document
-              </button>
-            )}
-            <button className="btn btn-secondary btn-sm" onClick={() => go('Calendar')}>
+            <button className="btn btn-secondary btn-sm" onClick={() => go('CIE')}>
+              <Flame size={14} color="#EA580C" /> View CIE Time Table
+            </button>
+            <button className="btn btn-primary btn-sm" onClick={() => go('Calendar')}>
               <Calendar size={14} /> Open Calendar
             </button>
           </div>
         </div>
         <p className="page-subtitle">
-          Today is <b>{today}</b> · Week of <b>{weekStart}</b> to <b>{weekEnd}</b>
+          Today is <b>{today}</b> · Academic overview and upcoming examinations for Semester 5
         </p>
       </div>
 
@@ -117,9 +120,9 @@ export default function MyWeek() {
           <div className="stat-sub">{todaySessions.length} sessions scheduled</div>
         </div>
         <div className="stat-card">
-          <div className="stat-label">WEEKLY STUDY PROGRESS</div>
-          <div className="stat-value">{(completedMinutes / 60).toFixed(1)} / {targetWeeklyHours}h</div>
-          <div className="stat-sub">{progressPercent}% of weekly target</div>
+          <div className="stat-label">CIE-1 EXAMINATIONS</div>
+          <div className="stat-value">{allExamEvents.filter(e => e.type === 'cie').length}</div>
+          <div className="stat-sub">Continuous Internal Evaluation</div>
         </div>
       </div>
 
@@ -259,60 +262,52 @@ export default function MyWeek() {
 
         {/* COLUMN 2: EXAMS & DEADLINES */}
         <div>
-          {/* UPCOMING EXAMINATIONS */}
+          {/* UPCOMING EXAMINATIONS (FROM OFFICIAL MITE CIE-1 TIME TABLE PDF) */}
           <div className="notion-card">
             <div className="card-header">
               <span className="card-title">
                 <Flame size={16} color="var(--warning)" />
-                Upcoming Examinations (CIE & SIE)
+                Upcoming Examinations (CIE Test I Circular)
               </span>
               <button className="btn btn-ghost btn-sm" onClick={() => go('CIE')}>
-                View CIE <ArrowRight size={12} />
+                View Time Table <ArrowRight size={12} />
               </button>
             </div>
 
-            {upcomingExams.length === 0 ? (
-              <p style={{ color: 'var(--text-secondary)', fontSize: 13, padding: '8px 0' }}>
-                No exams scheduled in this period.{' '}
-                <a onClick={() => go('Documents')} style={{ color: 'var(--accent)', cursor: 'pointer' }}>
-                  Upload CIE circular →
-                </a>
-              </p>
-            ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {upcomingExams.slice(0, 5).map(e => {
-                  const d = dayDiff(today, e.date || today)
-                  const isSoon = d <= 3
-                  return (
-                    <div
-                      key={e.id}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '8px 12px',
-                        borderRadius: 'var(--radius-md)',
-                        backgroundColor: isSoon ? '#FFFBEB' : 'var(--secondary-bg)',
-                        border: '1px solid var(--border-color)',
-                        borderLeft: `4px solid ${e.type === 'cie' ? '#F97316' : '#DC2626'}`
-                      }}
-                    >
-                      <div>
-                        <div style={{ fontWeight: 500, fontSize: 13 }}>{e.title}</div>
-                        <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
-                          {e.date} · {fmt(e.start)} – {fmt(e.end)}
-                        </div>
-                      </div>
-                      <div style={{ textAlign: 'right' }}>
-                        <span className={`tag-pill ${isSoon ? 'tag-hard' : 'tag-medium'}`}>
-                          {d === 0 ? 'Today!' : d === 1 ? 'Tomorrow' : `in ${d} days`}
-                        </span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {allExamEvents.slice(0, 6).map(e => {
+                const isMorning = e.start < 720
+                return (
+                  <div
+                    key={e.id}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '8px 12px',
+                      borderRadius: 'var(--radius-md)',
+                      backgroundColor: 'var(--secondary-bg)',
+                      border: '1px solid var(--border-color)',
+                      borderLeft: '4px solid #EA580C'
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: 13 }}>{e.title}</div>
+                      <div style={{ fontSize: 11.5, color: 'var(--text-muted)', display: 'flex', gap: 8, marginTop: 2 }}>
+                        <span>📅 {e.date}</span>
+                        <span>•</span>
+                        <span>⏰ {fmt(e.start)} – {fmt(e.end)} ({isMorning ? 'Morning' : 'Afternoon'})</span>
                       </div>
                     </div>
-                  )
-                })}
-              </div>
-            )}
+                    <div style={{ textAlign: 'right' }}>
+                      <span className="tag-pill tag-medium" style={{ fontSize: 11 }}>
+                        {e.code || 'CIE-1'}
+                      </span>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
           </div>
 
           {/* UPCOMING ASSIGNMENTS & TASKS */}

@@ -80,7 +80,17 @@ export const useStore=()=>useContext(C)
 
 export function StoreProvider({children}:{children:ReactNode}){
   const[demo,setDemo]=useState(getMode)
-  const[st,setSt]=useState<State>(()=>loadState(getMode()))
+  const[st,setSt]=useState<State>(()=> {
+    const loaded = loadState(getMode())
+    // Automatically integrate the official MITE CIE Test I examination circular into state
+    const nonCie = loaded.events.filter(e => e.type !== 'cie')
+    const updatedEvents = dedupe([...nonCie, ...MITE_CIE_EVENTS]).kept
+    return {
+      ...loaded,
+      events: updatedEvents
+    }
+  })
+
   // Default to MyWeek after onboarding or when data exists
   const[page,go]=useState<Page>(()=>{
     const s=loadState(getMode())
@@ -151,7 +161,7 @@ export function StoreProvider({children}:{children:ReactNode}){
       tasks: MITE_TASKS,
       onboarded: true
     }))
-    setLog(['MITE CSE Semester 5 Timetable & Courses successfully loaded!'])
+    setLog(['MITE CSE Semester 5 Timetable & CIE Test I Circular successfully loaded!'])
     go('MyWeek')
   }
 
