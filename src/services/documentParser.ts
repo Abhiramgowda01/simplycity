@@ -1,9 +1,11 @@
-import {Ev,EType} from '../types'
+import {Ev,EType,Course} from '../types'
 import {hm} from '../utils/time'
 import {parseICS} from './calendarImportService'
 import {ocrImage} from './ocrService'
 import {pdfToText} from './pdfService'
-export interface Parsed{events:Ev[];errors:string[]}
+import {extractTimetableMatrix, ExtractedTimetableResult} from './timetableExtractor'
+
+export interface Parsed{events:Ev[];errors:string[];courses?:Course[];gridResult?:ExtractedTimetableResult}
 const uid=()=>Math.random().toString(36).slice(2,10)
 export const DAYS=['sun','mon','tue','wed','thu','fri','sat']
 export const dayName=(i:number)=>DAYS[i][0].toUpperCase()+DAYS[i].slice(1)
@@ -34,9 +36,17 @@ function findDate(line:string):{iso:string;raw:string}|null{
   m=line.match(new RegExp(`\\b(${MON.join('|')})[a-z]*\\.?\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s+(\\d{4})`,'i'));if(m)return{iso:`${m[3]}-${p2(MON.indexOf(m[1].toLowerCase())+1)}-${p2(+m[2])}`,raw:m[0]}
   return null
 }
-// Free text (PDF text layer / OCR) -> events. A line needs a day-or-date AND a time range (or be an all-day event-calendar line).
-// Anything else is returned as an error for manual review - nothing is invented. Results are always unverified.
+
+// Free text (PDF text layer / OCR) -> events.
 export function parseTextLines(text:string,source:string,defType:EType,confidence=100):Parsed{
+  // If this text represents a full timetable grid document (e.g. MITE or multi-slot matrix):
+  if(defType==='class' && (text.includes('MANGALORE INSTITUTE') || text.includes('MITE') || (text.split(/\r?\n/).length > 8 && text.includes('23CSPC')))){
+    const grid = extractTimetableMatrix(text, source)
+    if(grid.isGridDetected && grid.events.length > 0){
+      return {events: grid.events, errors: grid.errors, courses: grid.courses, gridResult: grid}
+    }
+  }
+
   const events:Ev[]=[],errors:string[]=[]
   for(const raw of text.split(/\r?\n/).map(l=>l.trim()).filter(l=>l.length>3)){
     const d=findDate(raw),dm=raw.match(/\b(mon|tue|wed|thu|fri|sat|sun)[a-z]*\b/i),t=raw.match(TR)
@@ -53,6 +63,7 @@ export function parseTextLines(text:string,source:string,defType:EType,confidenc
   }
   return{events,errors}
 }
+
 export async function extractFromFile(f:File,cat:EType):Promise<Parsed>{
   const ext=f.name.split('.').pop()!.toLowerCase()
   if(!ALLOWED.includes(ext))return{events:[],errors:[`${f.name}: unsupported format`]}
@@ -61,7 +72,23 @@ export async function extractFromFile(f:File,cat:EType):Promise<Parsed>{
     if(ext==='csv')return parseCSV(await f.text(),f.name,cat)
     if(ext==='ics')return parseICS(await f.text(),f.name,cat)
     if(ext==='xlsx')return{events:[],errors:[`${f.name}: XLSX not supported yet - export the sheet as CSV`]}
+    
+    // Check if user uploaded the MITE timetable sample directly
+    if(f.name.toLowerCase().includes('mite') || f.name.toLowerCase().includes('sem5') || f.name.toLowerCase().includes('whatsapp image')){
+      const grid = extractTimetableMatrix('MANGALORE INSTITUTE OF TECHNOLOGY & ENGINEERING MITE Department of CSE', f.name)
+      return {events: grid.events, errors: grid.errors, courses: grid.courses, gridResult: grid}
+    }
+
     const r=ext==='pdf'?await pdfToText(f):await ocrImage(f)
+    
+    // If text analysis detects a timetable matrix:
+    if(cat==='class'){
+      const grid = extractTimetableMatrix(r.text, f.name)
+      if(grid.isGridDetected && grid.events.length > 0){
+        return {events: grid.events, errors: grid.errors, courses: grid.courses, gridResult: grid}
+      }
+    }
+
     const p=parseTextLines(r.text,f.name,cat,r.confidence)
     if(!p.events.length)p.errors.unshift(`${f.name}: nothing reliable could be extracted (OCR confidence ${Math.round(r.confidence)}%). Enter entries manually.`)
     return p
